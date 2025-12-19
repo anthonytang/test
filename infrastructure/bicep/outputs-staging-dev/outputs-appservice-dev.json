@@ -1,0 +1,22 @@
+{
+  "appServicePlanName": {
+    "type": "String",
+    "value": "staging-studio-dev-plan"
+  },
+  "backendName": {
+    "type": "String",
+    "value": "staging-studio-dev-backend"
+  },
+  "backendUrl": {
+    "type": "String",
+    "value": "https://staging-studio-dev-backend.azurewebsites.net"
+  },
+  "frontendName": {
+    "type": "String",
+    "value": "staging-studio-dev-frontend"
+  },
+  "frontendUrl": {
+    "type": "String",
+    "value": "https://staging-studio-dev-frontend.azurewebsites.net"
+  }
+}

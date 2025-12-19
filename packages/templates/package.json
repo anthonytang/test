@@ -1,0 +1,76 @@
+{
+  "name": "@studio/templates",
+  "version": "1.0.0",
+  "description": "Template creation, editing, and processing components",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
+    },
+    "./components": {
+      "types": "./dist/components/index.d.ts",
+      "require": "./dist/components/index.js",
+      "import": "./dist/components/index.mjs"
+    },
+    "./hooks": {
+      "types": "./dist/hooks/index.d.ts",
+      "require": "./dist/hooks/index.js",
+      "import": "./dist/hooks/index.mjs"
+    },
+    "./lib": {
+      "types": "./dist/lib/index.d.ts",
+      "require": "./dist/lib/index.js",
+      "import": "./dist/lib/index.mjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "type-check": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
+  },
+  "keywords": [
+    "studio",
+    "templates"
+  ],
+  "author": "Studio Team",
+  "license": "MIT",
+  "dependencies": {
+    "@studio/api": "workspace:*",
+    "@studio/auth": "workspace:*",
+    "@studio/core": "workspace:*",
+    "@studio/results": "workspace:*",
+    "@studio/storage": "workspace:*",
+    "@studio/ui": "workspace:*",
+    "@studio/projects": "workspace:*",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "uuid": "^9.0.0",
+    "@dnd-kit/core": "^6.1.0",
+    "@dnd-kit/sortable": "^8.0.0",
+    "@dnd-kit/utilities": "^3.2.2"
+  },
+  "peerDependencies": {
+    "next": "^14.0.0"
+  },
+  "devDependencies": {
+    "@testing-library/react": "^14.0.0",
+    "@types/react": "^18.0.0",
+    "@types/uuid": "^9.0.0",
+    "@vitejs/plugin-react": "^4.0.0",
+    "@vitest/coverage-v8": "^2.0.0",
+    "jsdom": "^24.0.0",
+    "typescript": "^5.3.3",
+    "tsup": "^8.5.0",
+    "vitest": "^2.0.0"
+  }
+}

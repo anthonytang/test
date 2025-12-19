@@ -1,0 +1,14 @@
+{
+  "adminUserEnabled": {
+    "type": "Bool",
+    "value": true
+  },
+  "loginServer": {
+    "type": "String",
+    "value": "stagingstudiodevacr.azurecr.io"
+  },
+  "registryName": {
+    "type": "String",
+    "value": "stagingstudiodevacr"
+  }
+}

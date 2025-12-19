@@ -1,0 +1,11 @@
+{
+  "resourceGroupName": {
+    "value": "lifesci-studio-prod-rg"
+  },
+  "keyVaultName": {
+    "value": "lifesci-studio-prod-kv"
+  },
+  "resourcePrefix": {
+    "value": "lifesci-studio-prod"
+  }
+}

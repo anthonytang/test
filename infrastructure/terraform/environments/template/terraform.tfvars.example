@@ -1,0 +1,254 @@
+# Terraform Variables Example File
+# Copy this file to terraform.tfvars and update the values for your deployment
+
+# =============================================================================
+# CUSTOMER AND PROJECT CONFIGURATION
+# =============================================================================
+
+# Customer prefix for resource naming (3-10 characters, alphanumeric)
+# Example: "acme", "contoso", "fabrikam"
+customer_prefix = "acme"
+
+# Project name (default: "studio")
+project_name = "studio"
+
+# Environment (dev, staging, prod)
+environment = "dev"
+
+# Azure region for resources
+# Recommended: eastus, westus2, westeurope, southeastasia
+location = "eastus"
+
+# Additional tags to apply to all resources
+additional_tags = {
+  "cost-center" = "engineering"
+  "owner"       = "devops-team"
+  "project"     = "studio-ai"
+}
+
+# =============================================================================
+# AZURE AD CONFIGURATION
+# =============================================================================
+
+# Azure AD tenant ID (required)
+# Get this from Azure Portal > Azure Active Directory > Overview
+tenant_id = "12345678-1234-1234-1234-123456789012"
+
+# Azure AD application client ID (required)
+# Get this from Azure Portal > Azure Active Directory > App registrations
+azure_ad_client_id = "87654321-4321-4321-4321-210987654321"
+
+# Azure AD application client secret (required, sensitive)
+# Get this from Azure Portal > Azure Active Directory > App registrations > Certificates & secrets
+azure_ad_client_secret = "your-client-secret-here"
+
+# =============================================================================
+# AZURE OPENAI CONFIGURATION
+# =============================================================================
+
+# Azure OpenAI API key (required, sensitive)
+# Get this from Azure Portal > Azure OpenAI > Keys and Endpoint
+azure_openai_api_key = "your-openai-api-key-here"
+
+# Azure OpenAI endpoint URL (required)
+# Get this from Azure Portal > Azure OpenAI > Keys and Endpoint
+azure_openai_endpoint = "https://your-openai-resource.openai.azure.com/"
+
+# Azure OpenAI SKU (S0, S1, S2, S3)
+# S0 = Free tier, S1+ = Paid tiers with higher quotas
+azure_openai_sku = "S0"
+
+# Model deployment configuration
+deploy_gpt4 = true          # Deploy GPT-4 model
+deploy_gpt35 = true         # Deploy GPT-3.5 Turbo model
+deploy_embedding = true     # Deploy text-embedding-ada-002 model
+
+# Model names (usually keep defaults)
+gpt4_model_name = "gpt-4"
+gpt35_model_name = "gpt-35-turbo"
+embedding_model_name = "text-embedding-ada-002"
+
+# Model deployment capacity (1-100)
+# Higher capacity = more concurrent requests
+gpt4_capacity = 10
+gpt35_capacity = 20
+embedding_capacity = 30
+
+# Optional AI services
+enable_content_safety = false  # Azure Content Safety
+enable_ai_search = false       # Azure AI Search
+
+# =============================================================================
+# APP SERVICE CONFIGURATION
+# =============================================================================
+
+# App Service Plan SKU
+# B1-B3: Basic tier, P1v2-P3v2: Premium v2, P1v3-P3v3: Premium v3
+# Recommended: P1v3 for production, B1 for development
+app_service_plan_sku = "P1v3"
+
+# Enable staging slots for blue-green deployments
+enable_staging_slots = true
+
+# CORS allowed origins for App Services
+# Use ["*"] for development, restrict for production
+cors_allowed_origins = ["*"]
+
+# =============================================================================
+# COSMOS DB CONFIGURATION
+# =============================================================================
+
+# Cosmos DB PostgreSQL passwords (required, sensitive)
+cosmos_postgresql_password = "your-postgresql-password-here"
+cosmos_postgresql_app_password = "your-postgresql-app-password-here"
+
+# Cosmos DB PostgreSQL configuration
+cosmos_postgresql_vcore_count = 4  # 2, 4, 8, 16, or 32
+cosmos_postgresql_node_count = 0   # 0-20 (0 = single node)
+
+# Cosmos DB MongoDB passwords (required, sensitive)
+cosmos_mongodb_password = "your-mongodb-password-here"
+
+# Cosmos DB MongoDB configuration
+cosmos_mongodb_sku = "M30"         # M30, M50, M100, etc.
+cosmos_mongodb_disk_size = 128     # 32-2048 GB
+cosmos_mongodb_node_count = 1      # 1-20
+
+# =============================================================================
+# STORAGE CONFIGURATION
+# =============================================================================
+
+# Storage account configuration
+storage_account_tier = "Standard"           # Standard or Premium
+storage_account_replication = "LRS"         # LRS, GRS, RAGRS, ZRS, GZRS, RAGZRS
+enable_storage_backup = true                # Enable backup container
+
+# =============================================================================
+# CONTAINER REGISTRY CONFIGURATION
+# =============================================================================
+
+# Container Registry SKU
+# Basic: Free, Standard: $5/month, Premium: $20/month
+container_registry_sku = "Basic"
+
+# =============================================================================
+# NETWORK CONFIGURATION
+# =============================================================================
+
+# Enable private endpoints for enhanced security
+# Recommended: true for production, false for development
+enable_private_endpoints = true
+
+# Enable high availability for databases
+# Recommended: true for production, false for development
+enable_high_availability = false
+
+# =============================================================================
+# MONITORING CONFIGURATION
+# =============================================================================
+
+# Log Analytics configuration
+log_analytics_sku = "PerGB2018"    # Free, PerNode, PerGB2018, Standalone, CapacityReservation
+log_retention_days = 30            # 1-2555 days
+
+# Monitoring solutions
+enable_container_insights = true   # Container monitoring
+enable_vm_insights = false         # VM monitoring
+
+# Alert configuration
+alert_email_addresses = {
+  "admin" = "admin@company.com"
+  "devops" = "devops@company.com"
+}
+
+alert_webhook_urls = {
+  "teams" = "https://webhook.office.com/webhookb2/..."
+  "slack" = "https://hooks.slack.com/services/..."
+}
+
+# App Service monitoring
+enable_app_service_alerts = true
+app_service_cpu_threshold = 80      # CPU usage threshold (%)
+app_service_memory_threshold = 80   # Memory usage threshold (%)
+
+# Database monitoring
+enable_database_alerts = true
+database_connections_threshold = 1000
+
+# Log-based alerts
+enable_log_alerts = true
+application_errors_threshold = 10
+
+# Diagnostic settings
+enable_diagnostic_settings = true
+
+# Cost management
+enable_cost_alerts = true
+monthly_budget_amount = 1000        # Monthly budget in USD
+
+# =============================================================================
+# BACKUP CONFIGURATION
+# =============================================================================
+
+# Backup retention period
+backup_retention_days = 30          # 1-365 days
+
+# =============================================================================
+# DEPLOYMENT TIERS
+# =============================================================================
+
+# BASIC TIER (Development/Testing)
+# - Single node databases
+# - Basic App Service Plan
+# - Standard storage
+# - Basic monitoring
+# Estimated cost: $100-200/month
+
+# STANDARD TIER (Staging/Pre-production)
+# - Multi-node databases
+# - Premium App Service Plan
+# - Premium storage
+# - Enhanced monitoring
+# Estimated cost: $500-1000/month
+
+# PREMIUM TIER (Production)
+# - High availability enabled
+# - Premium App Service Plan
+# - Premium storage with geo-replication
+# - Comprehensive monitoring
+# Estimated cost: $1000-2000/month
+
+# =============================================================================
+# SECURITY NOTES
+# =============================================================================
+
+# 1. All sensitive values (passwords, API keys) are stored in Azure Key Vault
+# 2. Private endpoints are enabled by default for enhanced security
+# 3. Managed identities are used for service-to-service authentication
+# 4. Network security groups restrict access to necessary ports only
+# 5. CORS is configured but should be restricted in production
+
+# =============================================================================
+# DEPLOYMENT INSTRUCTIONS
+# =============================================================================
+
+# 1. Copy this file to terraform.tfvars
+# 2. Update all required values (marked as required)
+# 3. Review and adjust optional values based on your needs
+# 4. Ensure you have Azure CLI installed and authenticated
+# 5. Run: terraform init
+# 6. Run: terraform plan
+# 7. Run: terraform apply
+
+# =============================================================================
+# POST-DEPLOYMENT
+# =============================================================================
+
+# After deployment:
+# 1. Configure Azure AD app registration redirect URIs
+# 2. Update DNS records if using custom domains
+# 3. Configure CI/CD pipelines for container deployments
+# 4. Set up monitoring dashboards
+# 5. Configure backup schedules
+# 6. Test application functionality
+# 7. Review security settings

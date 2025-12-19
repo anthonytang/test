@@ -1,0 +1,10 @@
+{
+  "clusterName": {
+    "type": "String",
+    "value": "staging-studio-dev-postgres"
+  },
+  "connectionString": {
+    "type": "String",
+    "value": "host=c-staging-studio-dev-postgres.ac6aipub6d5mav.postgres.cosmos.azure.com;port=5432;database=studio;username=citus;password=Stagingyai2025!;sslmode=require"
+  }
+}

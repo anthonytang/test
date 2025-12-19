@@ -1,0 +1,16 @@
+{
+  "gatewayUrl": {
+    "type": "String",
+    "value": "https://lifesci-studio-prod-apim.azure-api.net"
+  },
+  "subscriptionKey": {
+    "type": "String",
+    "value": "6fb2410785364620afff995f0b9ef004"
+  },
+  "apimOutboundIps": {
+    "type": "Array",
+    "value": [
+      "134.33.209.79"
+    ]
+  }
+}

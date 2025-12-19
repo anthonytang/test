@@ -1,0 +1,61 @@
+{
+  "name": "@studio/results",
+  "version": "1.0.0",
+  "description": "Results visualization and export package for Studio - displays processed template results with citations, evidence analysis, and multi-format export (Excel, Word)",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "type-check": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
+  },
+  "dependencies": {
+    "@heroicons/react": "^2.0.18",
+    "@studio/api": "workspace:*",
+    "@studio/auth": "workspace:*",
+    "@studio/core": "workspace:*",
+    "@studio/notifications": "workspace:*",
+    "@studio/ui": "workspace:*",
+    "docx": "^8.5.0",
+    "exceljs": "^4.3.0",
+    "file-saver": "^2.0.5",
+    "html-to-image": "^1.11.11",
+    "next": "^15.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "recharts": "^2.10.0",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "@testing-library/react": "^14.0.0",
+    "@types/file-saver": "^2.0.5",
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "@types/uuid": "^9.0.7",
+    "@vitejs/plugin-react": "^4.0.0",
+    "@vitest/coverage-v8": "^2.0.0",
+    "jsdom": "^24.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.0.0",
+    "vitest": "^2.0.0"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "customerPrefix": {
+      "value": "staging"
+    },
+    "environment": {
+      "value": "dev"
+    },
+    "location": {
+      "value": "eastus2"
+    },
+    "appServicePlanSku": {
+      "value": "P1V2"
+    },
+    "tenantId": {
+      "value": "8711a2a5-4004-47a8-b60d-89ee292f7b50"
+    },
+    "clientId": {
+      "value": "a702e18b-58a5-4afa-8cb3-f779b411d820"
+    },
+    "clientSecret": {
+      "value": ""
+    },
+    "postgresPassword": {
+      "value": "Stagingyai2025!"
+    },
+    "mongoPassword": {
+      "value": "Stagingyai2025!"
+    },
+    "subscription_id": {
+      "value": "e32ace51-daff-4a2d-a714-ade432a3b802"
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "logAnalyticsWorkspaceCustomerId": {
+    "type": "String",
+    "value": "80a79233-53ee-4227-a455-ada5fda51d5b"
+  },
+  "logAnalyticsWorkspaceResourceId": {
+    "type": "String",
+    "value": "/subscriptions/20e0b028-322f-4b33-8344-896d89fbd1ed/resourceGroups/lifesci-studio-prod-rg/providers/Microsoft.OperationalInsights/workspaces/lifesci-studio-prod-logs"
+  },
+  "logAnalyticsSharedKey": {
+    "type": "String",
+    "value": "9jBjU1nK6srOOAvPyU7E1odHsLd4gNenR4TtIQoJW687zYD+vNCtbUAgmhSx0qRjnEWyAkgJY9S5x3J7u//wBg=="
+  }
+}

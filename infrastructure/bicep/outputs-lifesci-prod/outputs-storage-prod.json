@@ -1,0 +1,10 @@
+{
+  "connectionString": {
+    "type": "String",
+    "value": ""
+  },
+  "storageAccountName": {
+    "type": "String",
+    "value": "lifescistudioprotpovz4ms"
+  }
+}

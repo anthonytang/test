@@ -1,0 +1,62 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "serverGroupName": {
+            "value": "testrun-studio-test-postgres"
+        },
+        "databaseName": {
+            "value": "citus"
+        },
+        "location": {
+            "value": "eastus"
+        },
+        "administratorLoginPassword": {
+            "value": null
+        },
+        "postgresqlVersion": {
+            "value": "16"
+        },
+        "coordinatorVcores": {
+            "value": 2
+        },
+        "coordinatorStorageSizeMB": {
+            "value": 131072
+        },
+        "numWorkers": {
+            "value": 0
+        },
+        "workerVcores": {
+            "value": 4
+        },
+        "workerStorageSizeMB": {
+            "value": 524288
+        },
+        "enableHa": {
+            "value": false
+        },
+        "enableGeoBackup": {
+            "value": false
+        },
+        "coordinatorServerEdition": {
+            "value": "BurstableGeneralPurpose"
+        },
+        "enablePublicIpAccess": {
+            "value": true
+        },
+        "serverGroupTags": {
+            "value": {}
+        },
+        "firewallRules": {
+            "value": {
+                "rules": [
+                    {
+                        "name": "AllowAllAzureServicesAndResourcesWithinAzureIps_2025-9-1_10-0-26",
+                        "endIPAddress": "0.0.0.0",
+                        "startIPAddress": "0.0.0.0"
+                    }
+                ]
+            }
+        }
+    }
+}

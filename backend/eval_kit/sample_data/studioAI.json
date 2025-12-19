@@ -1,0 +1,9 @@
+{
+    "test_name": "studioAI_sample_data",
+    "description": "Hypothetical data for StudioAI evaluation",
+    "file_paths": [
+        "backend/eval_kit/sample_data/studio_ai.pdf"
+    ],
+    "section_name": "Ethanol and Carbon Capture Income Statement",
+    "section_description": "Please pull the Projected income statement for the Ethanol and Carbon Capture Segment. Please pull every row and line item. Also include all the incremental EBITDA from the tax credit adjustments - I want it to go all the way to the bottom to row 25 on the document I provided."
+}

@@ -1,0 +1,18 @@
+{
+  "endpoint": {
+    "type": "String",
+    "value": "https://lifesci-studio-prod-aifoundry.cognitiveservices.azure.com/"
+  },
+  "projectId": {
+    "type": "String",
+    "value": "/subscriptions/20e0b028-322f-4b33-8344-896d89fbd1ed/resourceGroups/lifesci-studio-prod-rg/providers/Microsoft.CognitiveServices/accounts/lifesci-studio-prod-aifoundry/projects/lifesci-studio-prod-aifoundry-proj"
+  },
+  "projectName": {
+    "type": "String",
+    "value": "lifesci-studio-prod-aifoundry-proj"
+  },
+  "serviceName": {
+    "type": "String",
+    "value": "lifesci-studio-prod-aifoundry"
+  }
+}

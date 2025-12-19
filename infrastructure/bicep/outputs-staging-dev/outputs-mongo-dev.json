@@ -1,0 +1,14 @@
+{
+  "clusterName": {
+    "type": "String",
+    "value": "staging-studio-dev-mongo"
+  },
+  "connectionString": {
+    "type": "String",
+    "value": "mongodb+srv://<user>:<password>@staging-studio-dev-mongo.global.mongocluster.cosmos.azure.com/?tls=true&authMechanism=SCRAM-SHA-256&retrywrites=false&maxIdleTimeMS=120000"
+  },
+  "serverName": {
+    "type": "String",
+    "value": "mongodb+srv://<user>:<password>@staging-studio-dev-mongo.mongocluster.cosmos.azure.com/?tls=true&authMechanism=SCRAM-SHA-256&retrywrites=false&maxIdleTimeMS=120000"
+  }
+}

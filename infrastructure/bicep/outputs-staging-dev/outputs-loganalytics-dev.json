@@ -1,0 +1,14 @@
+{
+  "logAnalyticsWorkspaceCustomerId": {
+    "type": "String",
+    "value": "cdff018e-4b17-4c92-b15f-fbc4fc0e11eb"
+  },
+  "logAnalyticsWorkspaceResourceId": {
+    "type": "String",
+    "value": "/subscriptions/e32ace51-daff-4a2d-a714-ade432a3b802/resourceGroups/staging-studio-dev-rg/providers/Microsoft.OperationalInsights/workspaces/staging-studio-dev-logs"
+  },
+  "logAnalyticsSharedKey": {
+    "type": "String",
+    "value": "RuT2TYShhD4XsRYGDCWmIH+/PLo4SPN3uru86kioREqKEWmrZJ2KU69nBhqzjCJwVJJPsnFCyZ1X1VPR3YGQig=="
+  }
+}

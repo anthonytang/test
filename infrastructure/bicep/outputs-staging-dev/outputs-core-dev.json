@@ -1,0 +1,11 @@
+{
+  "resourceGroupName": {
+    "value": "staging-studio-dev-rg"
+  },
+  "keyVaultName": {
+    "value": "staging-studio-dev-kv"
+  },
+  "resourcePrefix": {
+    "value": "staging-studio-dev"
+  }
+}

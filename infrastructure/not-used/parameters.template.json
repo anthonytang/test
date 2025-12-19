@@ -1,0 +1,40 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "customerPrefix": {
+      "value": "REPLACE_WITH_CUSTOMER_NAME"
+    },
+    "environment": {
+      "value": "dev"
+    },
+    "location": {
+      "value": "eastus"
+    },
+    "appServicePlanSku": {
+      "value": "B1"
+    },
+    "tenantId": {
+      "value": "REPLACE_WITH_YOUR_TENANT_ID"
+    },
+    "clientId": {
+      "value": "REPLACE_WITH_YOUR_CLIENT_ID"
+    },
+    "clientSecret": {
+      "value": "REPLACE_WITH_YOUR_CLIENT_SECRET"
+    },
+    "postgresPassword": {
+      "value": "REPLACE_WITH_SECURE_PASSWORD"
+    },
+    "mongoPassword": {
+      "value": "REPLACE_WITH_SECURE_PASSWORD"
+    },
+
+    "alertEmail": {
+      "value": "admin@yourcompany.com"
+    },
+    "enablePrivateNetworking": {
+      "value": false
+    }
+  }
+}

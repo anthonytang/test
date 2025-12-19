@@ -1,0 +1,32 @@
+{
+  "name": "studio-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Studio - Frontend Modularization Monorepo",
+  "scripts": {
+    "dev": "turbo run dev --filter=local-deployment-frontend",
+    "dev:packages": "turbo run dev --filter='./packages/*'",
+    "build": "turbo run build",
+    "build:packages": "turbo run build --filter='./packages/*'",
+    "build:frontend": "turbo run build --filter=local-deployment-frontend",
+    "start": "turbo run start --filter=local-deployment-frontend",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "format": "turbo run format",
+    "clean": "turbo run clean && rm -rf node_modules",
+    "type-check": "turbo run type-check",
+    "check:bundle-sizes": "node scripts/check-bundle-sizes.js",
+    "check:circular-deps": "node scripts/check-circular-deps.js",
+    "performance:test": "node scripts/performance-test.js",
+    "performance:all": "pnpm check:bundle-sizes && pnpm check:circular-deps && pnpm performance:test"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "turbo": "^2.2.3"
+  },
+  "packageManager": "pnpm@9.10.0",
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=9.0.0"
+  }
+}

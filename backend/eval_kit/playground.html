@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studio Dev Playground</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        input[type="file"] {
+            display: block;
+            padding: 10px;
+            border: 2px dashed #ddd;
+            border-radius: 4px;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        input[type="file"]:hover {
+            border-color: #4CAF50;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: inherit;
+            resize: vertical;
+        }
+
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background: #45a049;
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .results {
+            margin-top: 40px;
+            display: none;
+        }
+
+        .results.visible {
+            display: block;
+        }
+
+        .pipeline-step {
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+
+        .step-header {
+            background: #f9f9f9;
+            padding: 16px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+        }
+
+        .step-header:hover {
+            background: #f0f0f0;
+        }
+
+        .step-title {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .step-badge {
+            background: #4CAF50;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .step-content {
+            padding: 20px;
+            background: #fafafa;
+            display: none;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .step-content.expanded {
+            display: block;
+        }
+
+        .step-content pre {
+            background: white;
+            padding: 16px;
+            border-radius: 4px;
+            border: 1px solid #e0e0e0;
+            overflow-x: auto;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .query-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .query-list li {
+            background: white;
+            padding: 12px 16px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+            border-left: 3px solid #4CAF50;
+        }
+
+        .chunk {
+            background: white;
+            padding: 16px;
+            border-radius: 4px;
+            margin-bottom: 12px;
+            border-left: 3px solid #2196F3;
+        }
+
+        .chunk-meta {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .chunk-text {
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .citation {
+            background: #fff3cd;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 600;
+            color: #856404;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #4CAF50;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .toggle-icon {
+            font-size: 18px;
+            color: #666;
+        }
+
+        .file-info {
+            background: #e8f5e9;
+            padding: 12px;
+            border-radius: 4px;
+            margin-top: 12px;
+            color: #2e7d32;
+            font-size: 14px;
+        }
+
+        .error {
+            background: #ffebee;
+            padding: 16px;
+            border-radius: 4px;
+            color: #c62828;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔬 Studio Dev Playground</h1>
+        <p class="subtitle">Test the complete pipeline: Upload → Search → Retrieve → Generate</p>
+
+        <form id="playgroundForm">
+            <div class="section">
+                <label for="files">Upload Files (PDF, Excel, CSV, etc.)</label>
+                <input type="file" id="files" name="files" multiple accept=".pdf,.xlsx,.csv,.txt,.html">
+                <div id="fileInfo" class="file-info" style="display: none;"></div>
+            </div>
+
+            <div class="section">
+                <label for="sectionName">Section Name</label>
+                <input type="text" id="sectionName" placeholder="e.g., Revenue Analysis"
+                       style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px;">
+            </div>
+
+            <div class="section">
+                <label for="sectionDescription">Section Description</label>
+                <textarea id="sectionDescription" rows="4"
+                          placeholder="e.g., What was the company's revenue in Q4 2024? Provide a breakdown by segment."></textarea>
+            </div>
+
+            <button type="submit" id="submitBtn">Run Pipeline</button>
+        </form>
+
+        <div id="loading" class="loading" style="display: none;">
+            <div class="spinner"></div>
+            <p>Processing pipeline...</p>
+        </div>
+
+        <div id="error" class="error" style="display: none;"></div>
+
+        <div id="results" class="results">
+            <!-- Processing Logs -->
+            <div class="pipeline-step">
+                <div class="step-header" onclick="toggleStep('logs')">
+                    <div>
+                        <div class="step-title">📋 Processing Logs</div>
+                    </div>
+                    <span class="toggle-icon" id="logs-icon">▼</span>
+                </div>
+                <div class="step-content" id="logs-content">
+                    <div id="logsList" style="background: #f9f9f9; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 13px; line-height: 1.8;"></div>
+                </div>
+            </div>
+
+            <!-- Step 1: Search Queries -->
+            <div class="pipeline-step">
+                <div class="step-header" onclick="toggleStep('queries')">
+                    <div>
+                        <div class="step-title">1. Search Queries Generated</div>
+                    </div>
+                    <span class="toggle-icon" id="queries-icon">▼</span>
+                </div>
+                <div class="step-content" id="queries-content">
+                    <ul class="query-list" id="queryList"></ul>
+                </div>
+            </div>
+
+            <!-- Step 2: Retrieved Chunks -->
+            <div class="pipeline-step">
+                <div class="step-header" onclick="toggleStep('chunks')">
+                    <div>
+                        <div class="step-title">2. Retrieved Chunks</div>
+                    </div>
+                    <span class="toggle-icon" id="chunks-icon">▼</span>
+                </div>
+                <div class="step-content" id="chunks-content">
+                    <div id="chunksSummary" style="background: #e3f2fd; padding: 12px; border-radius: 4px; margin-bottom: 16px; font-weight: 600; color: #1565c0;"></div>
+                    <div id="chunkList"></div>
+                </div>
+            </div>
+
+            <!-- Step 3: Numbered Context -->
+            <div class="pipeline-step">
+                <div class="step-header" onclick="toggleStep('context')">
+                    <div>
+                        <div class="step-title">3. Numbered Context (sent to AI)</div>
+                    </div>
+                    <span class="toggle-icon" id="context-icon">▼</span>
+                </div>
+                <div class="step-content" id="context-content">
+                    <pre id="contextText"></pre>
+                </div>
+            </div>
+
+            <!-- Step 4: Cited Sources -->
+            <div class="pipeline-step">
+                <div class="step-header" onclick="toggleStep('cited')">
+                    <div>
+                        <div class="step-title">4. Cited Sources (lines referenced by AI)</div>
+                    </div>
+                    <span class="toggle-icon" id="cited-icon">▼</span>
+                </div>
+                <div class="step-content expanded" id="cited-content">
+                    <pre id="citedText"></pre>
+                </div>
+            </div>
+
+            <!-- Step 5: AI Response -->
+            <div class="pipeline-step">
+                <div class="step-header" onclick="toggleStep('response')">
+                    <div>
+                        <div class="step-title">5. AI Response with Citations</div>
+                    </div>
+                    <span class="toggle-icon" id="response-icon">▼</span>
+                </div>
+                <div class="step-content expanded" id="response-content">
+                    <div id="responseText"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Track file selection
+        document.getElementById('files').addEventListener('change', function(e) {
+            const files = e.target.files;
+            const fileInfo = document.getElementById('fileInfo');
+
+            if (files.length > 0) {
+                const fileNames = Array.from(files).map(f => f.name).join(', ');
+                fileInfo.textContent = `Selected: ${fileNames}`;
+                fileInfo.style.display = 'block';
+            } else {
+                fileInfo.style.display = 'none';
+            }
+        });
+
+        // Toggle step visibility
+        function toggleStep(stepId) {
+            const content = document.getElementById(`${stepId}-content`);
+            const icon = document.getElementById(`${stepId}-icon`);
+
+            if (content.classList.contains('expanded')) {
+                content.classList.remove('expanded');
+                icon.textContent = '▶';
+            } else {
+                content.classList.add('expanded');
+                icon.textContent = '▼';
+            }
+        }
+
+        // Handle form submission
+        document.getElementById('playgroundForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const files = document.getElementById('files').files;
+            const sectionName = document.getElementById('sectionName').value;
+            const sectionDescription = document.getElementById('sectionDescription').value;
+
+            // Validation
+            if (!sectionName || !sectionDescription) {
+                alert('Please provide section name and description');
+                return;
+            }
+
+            // Show loading
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('results').classList.remove('visible');
+            document.getElementById('error').style.display = 'none';
+            document.getElementById('submitBtn').disabled = true;
+
+            try {
+                // Create FormData
+                const formData = new FormData();
+
+                // Add files if any
+                for (let i = 0; i < files.length; i++) {
+                    formData.append('files', files[i]);
+                }
+
+                formData.append('section_name', sectionName);
+                formData.append('section_description', sectionDescription);
+
+                // Call backend
+                const response = await fetch('/playground/process', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Server error: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+
+                // Display results
+                displayResults(data);
+
+            } catch (error) {
+                document.getElementById('error').textContent = `Error: ${error.message}`;
+                document.getElementById('error').style.display = 'block';
+            } finally {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('submitBtn').disabled = false;
+            }
+        });
+
+        function displayResults(data) {
+            // Show results section
+            document.getElementById('results').classList.add('visible');
+
+            // 0. Display processing logs
+            const logsList = document.getElementById('logsList');
+            if (data.processing_logs && data.processing_logs.length > 0) {
+                logsList.innerHTML = data.processing_logs.map(log => `• ${log}`).join('<br>');
+            } else {
+                logsList.innerHTML = '<span style="color: #999;">No logs available</span>';
+            }
+
+            // 1. Display search queries
+            const queryList = document.getElementById('queryList');
+            queryList.innerHTML = '';
+            (data.queries || []).forEach((query, i) => {
+                const li = document.createElement('li');
+                li.textContent = `${i + 1}. ${query}`;
+                queryList.appendChild(li);
+            });
+
+            // 2. Display retrieved chunks
+            const chunkList = document.getElementById('chunkList');
+            const chunksSummary = document.getElementById('chunksSummary');
+            chunkList.innerHTML = '';
+
+            const chunks = data.chunks || [];
+            const chunksTotal = data.chunks_total || chunks.length;
+
+            // Display summary
+            if (chunks.length > 0) {
+                const avgScore = chunks.reduce((sum, c) => sum + (c.similarity_score || 0), 0) / chunks.length;
+                chunksSummary.innerHTML = `📊 Retrieved ${chunksTotal} chunks | Average similarity score: ${avgScore.toFixed(3)}`;
+            } else {
+                chunksSummary.innerHTML = '';
+            }
+
+            // Display individual chunks
+            chunks.forEach((chunk, i) => {
+                const div = document.createElement('div');
+                div.className = 'chunk';
+                div.innerHTML = `
+                    <div class="chunk-meta" style="margin-bottom: 8px;">
+                        <strong>Chunk ${i + 1}:</strong> ${chunk.file_name} | <strong>Similarity:</strong> ${chunk.similarity_score?.toFixed(3) || 'N/A'}
+                    </div>
+                    <div class="chunk-meta" style="font-size: 11px; color: #666; margin-bottom: 8px;">
+                        📍 ${chunk.page_info || 'Page N/A'}, ${chunk.line_info || 'Lines N/A'} |
+                        📏 ${chunk.char_count || 0} chars, ${chunk.token_count || 0} tokens, ${chunk.line_count || 0} lines
+                    </div>
+                    <div class="chunk-text">${escapeHtml(chunk.text.substring(0, 200))}...</div>
+                `;
+                chunkList.appendChild(div);
+            });
+
+            if (chunks.length === 0) {
+                chunkList.innerHTML = '<p style="color: #666;">No chunks retrieved (no files uploaded or no matches found)</p>';
+            }
+
+            // 3. Display numbered context
+            document.getElementById('contextText').textContent = data.context || 'No context generated';
+
+            // 4. Display cited sources
+            const citedText = document.getElementById('citedText');
+            if (data.cited_context && data.cited_context.length > 0) {
+                citedText.textContent = data.cited_context;
+            } else {
+                citedText.textContent = 'No sources cited in the response';
+            }
+
+            // 5. Display AI response with highlighted citations
+            const responseText = document.getElementById('responseText');
+            let response = data.response || 'No response generated';
+
+            // Highlight citations [1], [2-3], etc.
+            response = response.replace(/\[(\d+(?:-\d+)?)\]/g, '<span class="citation">[$1]</span>');
+
+            responseText.innerHTML = `<div style="background: white; padding: 16px; border-radius: 4px; line-height: 1.8;">${response}</div>`;
+
+            // Auto-expand cited sources and response, collapse others
+            document.getElementById('cited-content').classList.add('expanded');
+            document.getElementById('cited-icon').textContent = '▼';
+            document.getElementById('response-content').classList.add('expanded');
+            document.getElementById('response-icon').textContent = '▼';
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    </script>
+</body>
+</html>

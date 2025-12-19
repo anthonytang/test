@@ -1,0 +1,36 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "customerPrefix": {
+      "value": "lifesci"
+    },
+    "environment": {
+      "value": "prod"
+    },
+    "location": {
+      "value": "eastus"
+    },
+    "appServicePlanSku": {
+      "value": "P1V2"
+    },
+    "tenantId": {
+      "value": "8bc93ba0-522b-41ee-9ccd-56630be03157"
+    },
+    "clientId": {
+      "value": "492173dc-53ce-4f2a-9e10-5038d356f6e4"
+    },
+    "clientSecret": {
+      "value": ""
+    },
+    "postgresPassword": {
+      "value": "Lifescistudio2025!"
+    },
+    "mongoPassword": {
+      "value": "Lifescistudio2025!"
+    },
+    "subscription_id": {
+      "value": "20e0b028-322f-4b33-8344-896d89fbd1ed"
+    }
+  }
+}

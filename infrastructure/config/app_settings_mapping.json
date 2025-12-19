@@ -1,0 +1,606 @@
+{
+  "application_settings_mapping": {
+    "description": "This file maps application configuration settings to Azure Key Vault secrets and other infrastructure outputs. It provides a centralized way to manage application configuration across different environments.",
+    "version": "1.0.0",
+    "last_updated": "2024-01-01",
+    "frontend": {
+      "description": "Frontend (NextJS) application settings mapping",
+      "environment_variables": {
+        "NEXT_PUBLIC_BACKEND_SERVER_URL": {
+          "source": "infrastructure_output",
+          "value": "@Microsoft.KeyVault(SecretUri={{backend_url}})",
+          "description": "Backend API server URL for client-side access",
+          "required": true,
+          "default": "https://{{customer_prefix}}-studio-{{environment}}-backend.azurewebsites.net"
+        },
+        "NEXT_PUBLIC_SITE_URL": {
+          "source": "infrastructure_output",
+          "value": "@Microsoft.KeyVault(SecretUri={{frontend_url}})",
+          "description": "Frontend application URL for client-side access",
+          "required": true,
+          "default": "https://{{customer_prefix}}-studio-{{environment}}-frontend.azurewebsites.net"
+        },
+        "NEXT_PUBLIC_AZURE_AD_CLIENT_ID": {
+          "source": "terraform_variable",
+          "value": "{{azure_ad_client_id}}",
+          "description": "Azure AD application client ID for authentication",
+          "required": true,
+          "sensitive": true
+        },
+        "NEXT_PUBLIC_AZURE_AD_TENANT_ID": {
+          "source": "terraform_variable",
+          "value": "{{tenant_id}}",
+          "description": "Azure AD tenant ID for authentication",
+          "required": true,
+          "sensitive": false
+        },
+        "NEXT_PUBLIC_AZURE_AD_REDIRECT_URI": {
+          "source": "infrastructure_output",
+          "value": "{{frontend_url}}/auth/callback",
+          "description": "Azure AD redirect URI for authentication callback",
+          "required": true,
+          "sensitive": false
+        },
+        "NEXT_PUBLIC_AZURE_AD_AUTHORITY": {
+          "source": "infrastructure_output",
+          "value": "https://login.microsoftonline.com/{{tenant_id}}",
+          "description": "Azure AD authority URL for authentication",
+          "required": true,
+          "sensitive": false
+        },
+        "AZURE_STORAGE_ACCOUNT_NAME": {
+          "source": "infrastructure_output",
+          "value": "{{storage_account_name}}",
+          "description": "Azure Storage account name for file operations",
+          "required": true,
+          "sensitive": false
+        },
+        "AZURE_STORAGE_ACCOUNT_KEY": {
+          "source": "key_vault_secret",
+          "value": "@Microsoft.KeyVault(SecretUri={{key_vault_uri}}secrets/storage-account-key/)",
+          "description": "Azure Storage account key for authentication",
+          "required": true,
+          "sensitive": true
+        },
+        "AZURE_STORAGE_CONNECTION_STRING": {
+          "source": "key_vault_secret",
+          "value": "@Microsoft.KeyVault(SecretUri={{key_vault_uri}}secrets/storage-connection-string/)",
+          "description": "Azure Storage connection string",
+          "required": true,
+          "sensitive": true
+        },
+        "AZURE_STORAGE_CONTAINER_NAME": {
+          "source": "infrastructure_output",
+          "value": "{{user_files_container_name}}",
+          "description": "Azure Storage container name for user files",
+          "required": true,
+          "sensitive": false
+        },
+        "AZURE_STORAGE_BLOB_ENDPOINT": {
+          "source": "infrastructure_output",
+          "value": "{{primary_blob_endpoint}}",
+          "description": "Azure Storage blob endpoint URL",
+          "required": true,
+          "sensitive": false
+        },
+        "NODE_ENV": {
+          "source": "static",
+          "value": "production",
+          "description": "Node.js environment",
+          "required": true,
+          "sensitive": false
+        },
+        "NEXT_TELEMETRY_DISABLED": {
+          "source": "static",
+          "value": "1",
+          "description": "Disable Next.js telemetry",
+          "required": false,
+          "sensitive": false
+        }
+      },
+      "app_settings": {
+        "WEBSITE_NODE_DEFAULT_VERSION": {
+          "value": "20",
+          "description": "Node.js version for the App Service",
+          "required": true
+        },
+        "WEBSITE_RUN_FROM_PACKAGE": {
+          "value": "1",
+          "description": "Run from package for better performance",
+          "required": false
+        },
+        "WEBSITE_HTTPLOGGING_RETENTION_DAYS": {
+          "value": "7",
+          "description": "HTTP logging retention period",
+          "required": false
+        },
+        "WEBSITE_ENABLE_APP_SERVICE_STORAGE": {
+          "value": "false",
+          "description": "Disable local storage for better performance",
+          "required": false
+        },
+        "WEBSITES_ENABLE_APP_SERVICE_STORAGE": {
+          "value": "false",
+          "description": "Disable local storage for better performance",
+          "required": false
+        }
+      }
+    },
+    "backend": {
+      "description": "Backend (FastAPI) application settings mapping",
+      "environment_variables": {
+        "AZURE_OPENAI_API_KEY": {
+          "source": "key_vault_secret",
+          "value": "@Microsoft.KeyVault(SecretUri={{key_vault_uri}}secrets/azure-openai-api-key/)",
+          "description": "Azure OpenAI API key for AI services",
+          "required": true,
+          "sensitive": true
+        },
+        "AZURE_OPENAI_API_VERSION": {
+          "source": "static",
+          "value": "2024-02-15-preview",
+          "description": "Azure OpenAI API version",
+          "required": true,
+          "sensitive": false
+        },
+        "AZURE_OPENAI_ENDPOINT": {
+          "source": "key_vault_secret",
+          "value": "@Microsoft.KeyVault(SecretUri={{key_vault_uri}}secrets/azure-openai-endpoint/)",
+          "description": "Azure OpenAI service endpoint",
+          "required": true,
+          "sensitive": false
+        },
+        "COSMOS_MONGODB_CONNECTION_STRING": {
+          "source": "key_vault_secret",
+          "value": "@Microsoft.KeyVault(SecretUri={{key_vault_uri}}secrets/cosmos-mongodb-connection/)",
+          "description": "Cosmos DB MongoDB connection string",
+          "required": true,
+          "sensitive": true
+        },
+        "COSMOS_DATABASE_NAME": {
+          "source": "infrastructure_output",
+          "value": "{{mongodb_database_name}}",
+          "description": "Cosmos DB MongoDB database name",
+          "required": true,
+          "sensitive": false
+        },
+        "COSMOS_COLLECTION_NAME": {
+          "source": "infrastructure_output",
+          "value": "{{mongodb_collection_name}}",
+          "description": "Cosmos DB MongoDB collection name",
+          "required": true,
+          "sensitive": false
+        },
+        "EMBEDDING_MODEL_NAME": {
+          "source": "static",
+          "value": "text-embedding-ada-002",
+          "description": "Azure OpenAI embedding model name",
+          "required": true,
+          "sensitive": false
+        },
+        "AZURE_STORAGE_ACCOUNT_NAME": {
+          "source": "infrastructure_output",
+          "value": "{{storage_account_name}}",
+          "description": "Azure Storage account name",
+          "required": true,
+          "sensitive": false
+        },
+        "AZURE_STORAGE_ACCOUNT_KEY": {
+          "source": "key_vault_secret",
+          "value": "@Microsoft.KeyVault(SecretUri={{key_vault_uri}}secrets/storage-account-key/)",
+          "description": "Azure Storage account key",
+          "required": true,
+          "sensitive": true
+        },
+        "AZURE_STORAGE_CONTAINER_NAME": {
+          "source": "infrastructure_output",
+          "value": "{{user_files_container_name}}",
+          "description": "Azure Storage container name for user files",
+          "required": true,
+          "sensitive": false
+        },
+        "PGHOST": {
+          "source": "infrastructure_output",
+          "value": "{{cosmos_postgresql_fqdn}}",
+          "description": "PostgreSQL host address",
+          "required": true,
+          "sensitive": false
+        },
+        "PGPORT": {
+          "source": "static",
+          "value": "5432",
+          "description": "PostgreSQL port number",
+          "required": true,
+          "sensitive": false
+        },
+        "PGDATABASE": {
+          "source": "infrastructure_output",
+          "value": "{{cosmos_postgresql_database_name}}",
+          "description": "PostgreSQL database name",
+          "required": true,
+          "sensitive": false
+        },
+        "PGUSER": {
+          "source": "infrastructure_output",
+          "value": "{{cosmos_postgresql_app_role_name}}",
+          "description": "PostgreSQL application user",
+          "required": true,
+          "sensitive": false
+        },
+        "PGPASSWORD": {
+          "source": "key_vault_secret",
+          "value": "@Microsoft.KeyVault(SecretUri={{key_vault_uri}}secrets/cosmos-postgresql-app-password/)",
+          "description": "PostgreSQL application user password",
+          "required": true,
+          "sensitive": true
+        },
+        "CORS_ORIGINS": {
+          "source": "infrastructure_output",
+          "value": "{{cors_allowed_origins}}",
+          "description": "CORS allowed origins for cross-origin requests",
+          "required": true,
+          "sensitive": false
+        },
+        "PYTHONPATH": {
+          "source": "static",
+          "value": "/app",
+          "description": "Python path for the application",
+          "required": true,
+          "sensitive": false
+        },
+        "PYTHONUNBUFFERED": {
+          "source": "static",
+          "value": "1",
+          "description": "Enable unbuffered Python output",
+          "required": false,
+          "sensitive": false
+        },
+        "PIPELINE_MAX_RETRIES": {
+          "source": "static",
+          "value": "3",
+          "description": "Maximum retry attempts for pipeline operations",
+          "required": false,
+          "sensitive": false
+        },
+        "PIPELINE_BATCH_SIZE": {
+          "source": "static",
+          "value": "10",
+          "description": "Batch size for pipeline processing",
+          "required": false,
+          "sensitive": false
+        },
+        "PIPELINE_TIMEOUT_SECONDS": {
+          "source": "static",
+          "value": "300",
+          "description": "Pipeline operation timeout in seconds",
+          "required": false,
+          "sensitive": false
+        },
+        "PIPELINE_SIMILARITY_THRESHOLD": {
+          "source": "static",
+          "value": "0.8",
+          "description": "Similarity threshold for vector search",
+          "required": false,
+          "sensitive": false
+        },
+        "PIPELINE_MAX_CONCURRENT": {
+          "source": "static",
+          "value": "5",
+          "description": "Maximum concurrent pipeline operations",
+          "required": false,
+          "sensitive": false
+        },
+        "PIPELINE_LOG_LEVEL": {
+          "source": "static",
+          "value": "INFO",
+          "description": "Pipeline logging level",
+          "required": false,
+          "sensitive": false
+        },
+        "PIPELINE_SEARCH_TOP_K": {
+          "source": "static",
+          "value": "5",
+          "description": "Number of top results for vector search",
+          "required": false,
+          "sensitive": false
+        },
+        "PIPELINE_EMBEDDING_TIMEOUT": {
+          "source": "static",
+          "value": "60",
+          "description": "Embedding generation timeout in seconds",
+          "required": false,
+          "sensitive": false
+        },
+        "COSMOS_BATCH_SIZE": {
+          "source": "static",
+          "value": "100",
+          "description": "Cosmos DB batch size for operations",
+          "required": false,
+          "sensitive": false
+        },
+        "COSMOS_MAX_RETRIES": {
+          "source": "static",
+          "value": "3",
+          "description": "Maximum retry attempts for Cosmos DB operations",
+          "required": false,
+          "sensitive": false
+        },
+        "COSMOS_TIMEOUT_SECONDS": {
+          "source": "static",
+          "value": "30",
+          "description": "Cosmos DB operation timeout in seconds",
+          "required": false,
+          "sensitive": false
+        },
+        "COSMOS_RATE_LIMIT_DELAY": {
+          "source": "static",
+          "value": "1",
+          "description": "Delay between Cosmos DB operations in seconds",
+          "required": false,
+          "sensitive": false
+        },
+        "COSMOS_LOG_LEVEL": {
+          "source": "static",
+          "value": "INFO",
+          "description": "Cosmos DB logging level",
+          "required": false,
+          "sensitive": false
+        },
+        "COSMOS_EMBEDDING_BATCH_DELAY": {
+          "source": "static",
+          "value": "0.1",
+          "description": "Delay between embedding batch operations in seconds",
+          "required": false,
+          "sensitive": false
+        },
+        "COSMOS_MAX_EMBEDDING_BATCH_SIZE": {
+          "source": "static",
+          "value": "1000",
+          "description": "Maximum batch size for embedding operations",
+          "required": false,
+          "sensitive": false
+        }
+      },
+      "app_settings": {
+        "WEBSITES_PORT": {
+          "value": "8000",
+          "description": "Port for the FastAPI application",
+          "required": true
+        },
+        "WEBSITE_RUN_FROM_PACKAGE": {
+          "value": "1",
+          "description": "Run from package for better performance",
+          "required": false
+        },
+        "WEBSITE_HTTPLOGGING_RETENTION_DAYS": {
+          "value": "7",
+          "description": "HTTP logging retention period",
+          "required": false
+        },
+        "WEBSITE_ENABLE_APP_SERVICE_STORAGE": {
+          "value": "false",
+          "description": "Disable local storage for better performance",
+          "required": false
+        },
+        "WEBSITES_ENABLE_APP_SERVICE_STORAGE": {
+          "value": "false",
+          "description": "Disable local storage for better performance",
+          "required": false
+        },
+        "PYTHON_VERSION": {
+          "value": "3.11",
+          "description": "Python version for the App Service",
+          "required": true
+        },
+        "SCM_DO_BUILD_DURING_DEPLOYMENT": {
+          "value": "false",
+          "description": "Disable build during deployment for containerized apps",
+          "required": false
+        },
+        "DOCKER_ENABLE_CI": {
+          "value": "false",
+          "description": "Disable Docker CI for containerized apps",
+          "required": false
+        }
+      }
+    },
+    "infrastructure_outputs": {
+      "description": "Mapping of Terraform infrastructure outputs to application settings",
+      "mappings": {
+        "resource_group_name": {
+          "source": "terraform_output",
+          "output_name": "resource_group_name",
+          "description": "Azure resource group name"
+        },
+        "frontend_url": {
+          "source": "terraform_output",
+          "output_name": "frontend_url",
+          "description": "Frontend application URL"
+        },
+        "backend_url": {
+          "source": "terraform_output",
+          "output_name": "backend_url",
+          "description": "Backend application URL"
+        },
+        "cosmos_postgresql_fqdn": {
+          "source": "terraform_output",
+          "output_name": "cosmos_postgresql_fqdn",
+          "description": "Cosmos DB PostgreSQL FQDN"
+        },
+        "cosmos_postgresql_database_name": {
+          "source": "terraform_output",
+          "output_name": "cosmos_postgresql_database_name",
+          "description": "Cosmos DB PostgreSQL database name"
+        },
+        "cosmos_mongodb_fqdn": {
+          "source": "terraform_output",
+          "output_name": "cosmos_mongodb_fqdn",
+          "description": "Cosmos DB MongoDB FQDN"
+        },
+        "mongodb_database_name": {
+          "source": "terraform_output",
+          "output_name": "mongodb_database_name",
+          "description": "Cosmos DB MongoDB database name"
+        },
+        "mongodb_collection_name": {
+          "source": "terraform_output",
+          "output_name": "mongodb_collection_name",
+          "description": "Cosmos DB MongoDB collection name"
+        },
+        "storage_account_name": {
+          "source": "terraform_output",
+          "output_name": "storage_account_name",
+          "description": "Azure Storage account name"
+        },
+        "primary_blob_endpoint": {
+          "source": "terraform_output",
+          "output_name": "primary_blob_endpoint",
+          "description": "Azure Storage primary blob endpoint"
+        },
+        "user_files_container_name": {
+          "source": "terraform_output",
+          "output_name": "user_files_container_name",
+          "description": "User files container name"
+        },
+        "key_vault_uri": {
+          "source": "terraform_output",
+          "output_name": "key_vault_uri",
+          "description": "Azure Key Vault URI"
+        },
+        "cors_allowed_origins": {
+          "source": "terraform_output",
+          "output_name": "cors_allowed_origins",
+          "description": "CORS allowed origins"
+        }
+      }
+    },
+    "key_vault_secrets": {
+      "description": "Mapping of Key Vault secrets to application settings",
+      "secrets": {
+        "cosmos-postgresql-connection": {
+          "description": "Cosmos DB PostgreSQL connection string",
+          "source": "terraform_output",
+          "value": "{{cosmos_postgresql_connection_string}}",
+          "sensitive": true
+        },
+        "cosmos-postgresql-app-password": {
+          "description": "Cosmos DB PostgreSQL application user password",
+          "source": "terraform_variable",
+          "value": "{{cosmos_postgresql_app_password}}",
+          "sensitive": true
+        },
+        "cosmos-mongodb-connection": {
+          "description": "Cosmos DB MongoDB connection string",
+          "source": "terraform_output",
+          "value": "{{cosmos_mongodb_connection_string}}",
+          "sensitive": true
+        },
+        "storage-connection-string": {
+          "description": "Azure Storage connection string",
+          "source": "terraform_output",
+          "value": "{{storage_connection_string}}",
+          "sensitive": true
+        },
+        "storage-account-key": {
+          "description": "Azure Storage account key",
+          "source": "terraform_output",
+          "value": "{{storage_account_key}}",
+          "sensitive": true
+        },
+        "azure-openai-api-key": {
+          "description": "Azure OpenAI API key",
+          "source": "terraform_variable",
+          "value": "{{azure_openai_api_key}}",
+          "sensitive": true
+        },
+        "azure-openai-endpoint": {
+          "description": "Azure OpenAI endpoint",
+          "source": "terraform_variable",
+          "value": "{{azure_openai_endpoint}}",
+          "sensitive": false
+        },
+        "azure-ad-client-secret": {
+          "description": "Azure AD client secret",
+          "source": "terraform_variable",
+          "value": "{{azure_ad_client_secret}}",
+          "sensitive": true
+        }
+      }
+    },
+    "deployment_configuration": {
+      "description": "Configuration for deployment and environment management",
+      "environments": {
+        "development": {
+          "description": "Development environment configuration",
+          "app_service_plan_sku": "B1",
+          "cosmos_postgresql_sku": "development",
+          "cosmos_mongodb_sku": "development",
+          "storage_account_tier": "Standard",
+          "container_registry_sku": "Basic",
+          "enable_private_endpoints": false,
+          "enable_high_availability": false,
+          "estimated_monthly_cost": 50
+        },
+        "staging": {
+          "description": "Staging environment configuration",
+          "app_service_plan_sku": "S1",
+          "cosmos_postgresql_sku": "staging",
+          "cosmos_mongodb_sku": "staging",
+          "storage_account_tier": "Standard",
+          "container_registry_sku": "Standard",
+          "enable_private_endpoints": true,
+          "enable_high_availability": false,
+          "estimated_monthly_cost": 200
+        },
+        "production": {
+          "description": "Production environment configuration",
+          "app_service_plan_sku": "P1v3",
+          "cosmos_postgresql_sku": "production",
+          "cosmos_mongodb_sku": "production",
+          "storage_account_tier": "Premium",
+          "container_registry_sku": "Premium",
+          "enable_private_endpoints": true,
+          "enable_high_availability": true,
+          "estimated_monthly_cost": 800
+        }
+      },
+      "deployment_steps": {
+        "1_infrastructure": {
+          "description": "Deploy Azure infrastructure using Terraform",
+          "order": 1,
+          "required": true
+        },
+        "2_key_vault_secrets": {
+          "description": "Store application secrets in Key Vault",
+          "order": 2,
+          "required": true
+        },
+        "3_container_images": {
+          "description": "Build and push container images to Container Registry",
+          "order": 3,
+          "required": true
+        },
+        "4_app_services": {
+          "description": "Deploy applications to App Services",
+          "order": 4,
+          "required": true
+        },
+        "5_application_settings": {
+          "description": "Configure application settings and environment variables",
+          "order": 5,
+          "required": true
+        },
+        "6_monitoring": {
+          "description": "Configure monitoring and alerting",
+          "order": 6,
+          "required": false
+        },
+        "7_testing": {
+          "description": "Run post-deployment tests and validation",
+          "order": 7,
+          "required": true
+        }
+      }
+    }
+  }
+}

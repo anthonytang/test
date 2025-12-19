@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studio Test Runner</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: inherit;
+            background: white;
+            cursor: pointer;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background: #45a049;
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .test-info {
+            background: #e3f2fd;
+            padding: 16px;
+            border-radius: 4px;
+            margin-top: 12px;
+            color: #1565c0;
+            font-size: 14px;
+        }
+
+        .test-info strong {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
+
+        .test-info .detail {
+            margin: 4px 0;
+            padding-left: 12px;
+        }
+
+        .model-info {
+            background: #f3e5f5;
+            padding: 12px;
+            border-radius: 4px;
+            margin-top: 12px;
+            color: #6a1b9a;
+            font-size: 14px;
+        }
+
+        .results {
+            margin-top: 40px;
+            display: none;
+        }
+
+        .results.visible {
+            display: block;
+        }
+
+        .pipeline-step {
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+
+        .step-header {
+            background: #f9f9f9;
+            padding: 16px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+        }
+
+        .step-header:hover {
+            background: #f0f0f0;
+        }
+
+        .step-title {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .step-content {
+            padding: 20px;
+            background: #fafafa;
+            display: none;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .step-content.expanded {
+            display: block;
+        }
+
+        .step-content pre {
+            background: white;
+            padding: 16px;
+            border-radius: 4px;
+            border: 1px solid #e0e0e0;
+            overflow-x: auto;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .query-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .query-list li {
+            background: white;
+            padding: 12px 16px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+            border-left: 3px solid #4CAF50;
+        }
+
+        .chunk {
+            background: white;
+            padding: 16px;
+            border-radius: 4px;
+            margin-bottom: 12px;
+            border-left: 3px solid #2196F3;
+        }
+
+        .chunk-meta {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .chunk-text {
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .citation {
+            background: #fff3cd;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 600;
+            color: #856404;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #4CAF50;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .toggle-icon {
+            font-size: 18px;
+            color: #666;
+        }
+
+        .error {
+            background: #ffebee;
+            padding: 16px;
+            border-radius: 4px;
+            color: #c62828;
+            margin-top: 20px;
+        }
+
+        .result-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .result-table thead tr {
+            background: #f5f5f5;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .result-table th {
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .result-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #f0f0f0;
+            color: #555;
+            font-size: 14px;
+        }
+
+        .result-table tbody tr:hover {
+            background: #f9f9f9;
+        }
+
+        .result-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .table-citation {
+            display: inline-block;
+            background: #fff3cd;
+            padding: 1px 4px;
+            border-radius: 2px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #856404;
+            margin-left: 4px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin: 16px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Studio Test Runner</h1>
+        <p class="subtitle">Run predefined test cases with different models</p>
+
+        <form id="testerForm">
+            <div class="section">
+                <label for="testCase">Test Case</label>
+                <select id="testCase" name="testCase">
+                    <option value="">Loading test cases...</option>
+                </select>
+                <div id="testInfo" class="test-info" style="display: none;">
+                    <strong id="testName"></strong>
+                    <div class="detail" id="testDescription"></div>
+                    <div class="detail"><strong>Files:</strong> <span id="testFiles"></span></div>
+                    <div class="detail"><strong>Section:</strong> <span id="testSection"></span></div>
+                </div>
+            </div>
+
+            <div class="section">
+                <label for="modelName">Model Name</label>
+                <select id="modelName" name="modelName">
+                    <option value="gpt-5.2-chat">gpt-5.2-chat (Latest Preview) 🔥</option>
+                    <option value="gpt-4o" selected>gpt-4o (Default)</option>
+                    <option value="gpt-4o-mini">gpt-4o-mini (Faster, Cheaper)</option>
+                </select>
+                <div id="modelInfo" class="model-info">
+                    Selected model: <strong>gpt-4o</strong>
+                </div>
+            </div>
+
+            <div class="section">
+                <label for="outputFormat">Output Format</label>
+                <select id="outputFormat" name="outputFormat">
+                    <option value="text" selected>Text (Narrative Response)</option>
+                    <option value="table">Table (Structured Data)</option>
+                    <option value="chart">Chart (Data Visualization)</option>
+                </select>
+                <div id="formatInfo" class="model-info" style="background: #e8f5e9; color: #2e7d32;">
+                    Selected format: <strong>Text</strong>
+                </div>
+            </div>
+
+            <button type="submit" id="submitBtn">Run Test</button>
+        </form>
+
+        <div id="loading" class="loading" style="display: none;">
+            <div class="spinner"></div>
+            <p>Running test case...</p>
+        </div>
+
+        <div id="error" class="error" style="display: none;"></div>
+
+        <div id="results" class="results">
+            <!-- Test Case Details -->
+            <div class="pipeline-step">
+                <div class="step-header" onclick="toggleStep('testDetails')">
+                    <div>
+                        <div class="step-title">📄 Test Case Details</div>
+                    </div>
+                    <span class="toggle-icon" id="testDetails-icon">▼</span>
+                </div>
+                <div class="step-content expanded" id="testDetails-content">
+                    <div style="background: white; padding: 16px; border-radius: 4px;">
+                        <div style="margin-bottom: 16px;">
+                            <div style="font-weight: 600; color: #555; margin-bottom: 4px;">Files:</div>
+                            <div id="testDetailsFiles" style="color: #333; padding-left: 12px;"></div>
+                        </div>
+                        <div style="margin-bottom: 16px;">
+                            <div style="font-weight: 600; color: #555; margin-bottom: 4px;">Section Name:</div>
+                            <div id="testDetailsSectionName" style="color: #333; padding-left: 12px;"></div>
+                        </div>
+                        <div>
+                            <div style="font-weight: 600; color: #555; margin-bottom: 4px;">Section Description:</div>
+                            <div id="testDetailsSectionDescription" style="color: #333; padding-left: 12px; line-height: 1.6;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Processing Logs -->
+            <div class="pipeline-step">
+                <div class="step-header" onclick="toggleStep('logs')">
+                    <div>
+                        <div class="step-title">📋 Processing Logs</div>
+                    </div>
+                    <span class="toggle-icon" id="logs-icon">▼</span>
+                </div>
+                <div class="step-content" id="logs-content">
+                    <div id="logsList" style="background: #f9f9f9; padding: 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 13px; line-height: 1.8;"></div>
+                </div>
+            </div>
+
+            <!-- Step 1: Search Queries -->
+            <div class="pipeline-step">
+                <div class="step-header" onclick="toggleStep('queries')">
+                    <div>
+                        <div class="step-title">1. Search Queries Generated</div>
+                    </div>
+                    <span class="toggle-icon" id="queries-icon">▼</span>
+                </div>
+                <div class="step-content" id="queries-content">
+                    <ul class="query-list" id="queryList"></ul>
+                </div>
+            </div>
+
+            <!-- Step 2: Retrieved Chunks -->
+            <div class="pipeline-step">
+                <div class="step-header" onclick="toggleStep('chunks')">
+                    <div>
+                        <div class="step-title">2. Retrieved Chunks</div>
+                    </div>
+                    <span class="toggle-icon" id="chunks-icon">▼</span>
+                </div>
+                <div class="step-content" id="chunks-content">
+                    <div id="chunksSummary" style="background: #e3f2fd; padding: 12px; border-radius: 4px; margin-bottom: 16px; font-weight: 600; color: #1565c0;"></div>
+                    <div id="chunkList"></div>
+                </div>
+            </div>
+
+            <!-- Step 3: Numbered Context -->
+            <div class="pipeline-step">
+                <div class="step-header" onclick="toggleStep('context')">
+                    <div>
+                        <div class="step-title">3. Numbered Context (sent to AI)</div>
+                    </div>
+                    <span class="toggle-icon" id="context-icon">▼</span>
+                </div>
+                <div class="step-content" id="context-content">
+                    <pre id="contextText"></pre>
+                </div>
+            </div>
+
+            <!-- Step 4: Cited Sources -->
+            <div class="pipeline-step">
+                <div class="step-header" onclick="toggleStep('cited')">
+                    <div>
+                        <div class="step-title">4. Cited Sources (lines referenced by AI)</div>
+                    </div>
+                    <span class="toggle-icon" id="cited-icon">▼</span>
+                </div>
+                <div class="step-content expanded" id="cited-content">
+                    <pre id="citedText"></pre>
+                </div>
+            </div>
+
+            <!-- Step 5: AI Response -->
+            <div class="pipeline-step">
+                <div class="step-header" onclick="toggleStep('response')">
+                    <div>
+                        <div class="step-title">5. AI Response with Citations</div>
+                    </div>
+                    <span class="toggle-icon" id="response-icon">▼</span>
+                </div>
+                <div class="step-content expanded" id="response-content">
+                    <div id="responseText"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let testCases = {};
+
+        // Load available test cases on page load
+        async function loadTestCases() {
+            try {
+                const response = await fetch('/tester/test-cases');
+                if (!response.ok) {
+                    throw new Error(`Failed to load test cases: ${response.statusText}`);
+                }
+
+                testCases = await response.json();
+                const select = document.getElementById('testCase');
+                select.innerHTML = '';
+
+                if (Object.keys(testCases).length === 0) {
+                    select.innerHTML = '<option value="">No test cases available</option>';
+                    return;
+                }
+
+                // Add default option
+                const defaultOption = document.createElement('option');
+                defaultOption.value = '';
+                defaultOption.textContent = 'Select a test case...';
+                select.appendChild(defaultOption);
+
+                // Add test case options
+                for (const [filename, testCase] of Object.entries(testCases)) {
+                    const option = document.createElement('option');
+                    option.value = filename;
+                    option.textContent = testCase.test_name || filename;
+                    select.appendChild(option);
+                }
+            } catch (error) {
+                console.error('Error loading test cases:', error);
+                document.getElementById('testCase').innerHTML = '<option value="">Error loading test cases</option>';
+            }
+        }
+
+        // Display test case info when selected
+        document.getElementById('testCase').addEventListener('change', function(e) {
+            const filename = e.target.value;
+            const testInfo = document.getElementById('testInfo');
+
+            if (!filename || !testCases[filename]) {
+                testInfo.style.display = 'none';
+                return;
+            }
+
+            const testCase = testCases[filename];
+            document.getElementById('testName').textContent = testCase.test_name || filename;
+            document.getElementById('testDescription').textContent = testCase.description || 'No description';
+            document.getElementById('testFiles').textContent = (testCase.file_paths || []).join(', ');
+            document.getElementById('testSection').textContent = testCase.section_name || 'N/A';
+            testInfo.style.display = 'block';
+        });
+
+        // Track model selection
+        document.getElementById('modelName').addEventListener('change', function(e) {
+            const modelInfo = document.getElementById('modelInfo');
+            modelInfo.innerHTML = `Selected model: <strong>${e.target.value}</strong>`;
+        });
+
+        // Track output format selection
+        document.getElementById('outputFormat').addEventListener('change', function(e) {
+            const formatInfo = document.getElementById('formatInfo');
+            const formatNames = {
+                'text': 'Text',
+                'table': 'Table',
+                'chart': 'Chart'
+            };
+            formatInfo.innerHTML = `Selected format: <strong>${formatNames[e.target.value]}</strong>`;
+        });
+
+        // Toggle step visibility
+        function toggleStep(stepId) {
+            const content = document.getElementById(`${stepId}-content`);
+            const icon = document.getElementById(`${stepId}-icon`);
+
+            if (content.classList.contains('expanded')) {
+                content.classList.remove('expanded');
+                icon.textContent = '▶';
+            } else {
+                content.classList.add('expanded');
+                icon.textContent = '▼';
+            }
+        }
+
+        // Handle form submission
+        document.getElementById('testerForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const testCaseFilename = document.getElementById('testCase').value;
+            const modelName = document.getElementById('modelName').value;
+            const outputFormat = document.getElementById('outputFormat').value;
+
+            // Validation
+            if (!testCaseFilename) {
+                alert('Please select a test case');
+                return;
+            }
+
+            // Show loading
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('results').classList.remove('visible');
+            document.getElementById('error').style.display = 'none';
+            document.getElementById('submitBtn').disabled = true;
+
+            try {
+                // Call backend
+                const response = await fetch('/tester/run', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        test_case: testCaseFilename,
+                        model_name: modelName,
+                        output_format: outputFormat
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.detail || `Server error: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+
+                // Display results
+                displayResults(data);
+
+            } catch (error) {
+                document.getElementById('error').textContent = `Error: ${error.message}`;
+                document.getElementById('error').style.display = 'block';
+            } finally {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('submitBtn').disabled = false;
+            }
+        });
+
+        function renderTable(tableData) {
+            if (!tableData || !tableData.rows || tableData.rows.length === 0) {
+                return '<p style="color: #999;">No table data available</p>';
+            }
+
+            const rows = tableData.rows;
+            let html = '<div class="table-container"><table class="result-table">';
+
+            // Header row (first row)
+            html += '<thead><tr>';
+            const headerRow = rows[0];
+            if (headerRow && headerRow.cells) {
+                headerRow.cells.forEach(cell => {
+                    html += `<th>${escapeHtml(cell.text || '')}</th>`;
+                });
+            }
+            html += '</tr></thead>';
+
+            // Data rows (remaining rows)
+            html += '<tbody>';
+            for (let i = 1; i < rows.length; i++) {
+                const row = rows[i];
+                if (!row || !row.cells) continue;
+
+                html += '<tr>';
+                row.cells.forEach(cell => {
+                    const cellText = escapeHtml(cell.text || '');
+                    const tags = cell.tags || [];
+
+                    let cellContent = cellText;
+                    if (tags.length > 0) {
+                        const citations = tags.map(tag => `<span class="table-citation">${tag}</span>`).join('');
+                        cellContent += citations;
+                    }
+
+                    html += `<td>${cellContent}</td>`;
+                });
+                html += '</tr>';
+            }
+            html += '</tbody>';
+
+            html += '</table></div>';
+            return html;
+        }
+
+        function displayResults(data) {
+            // Show results section
+            document.getElementById('results').classList.add('visible');
+
+            // 0. Display test case details
+            const testDetailsFiles = document.getElementById('testDetailsFiles');
+            const testDetailsSectionName = document.getElementById('testDetailsSectionName');
+            const testDetailsSectionDescription = document.getElementById('testDetailsSectionDescription');
+
+            if (data.test_details) {
+                // Display files
+                if (data.test_details.file_paths && data.test_details.file_paths.length > 0) {
+                    testDetailsFiles.innerHTML = data.test_details.file_paths.map(path =>
+                        `<div style="margin-bottom: 4px;">• ${escapeHtml(path)}</div>`
+                    ).join('');
+                } else {
+                    testDetailsFiles.innerHTML = '<span style="color: #999;">No files specified</span>';
+                }
+
+                // Display section name
+                testDetailsSectionName.textContent = data.test_details.section_name || 'N/A';
+
+                // Display section description
+                testDetailsSectionDescription.textContent = data.test_details.section_description || 'N/A';
+            }
+
+            // 1. Display processing logs
+            const logsList = document.getElementById('logsList');
+            if (data.processing_logs && data.processing_logs.length > 0) {
+                logsList.innerHTML = data.processing_logs.map(log => `• ${log}`).join('<br>');
+            } else {
+                logsList.innerHTML = '<span style="color: #999;">No logs available</span>';
+            }
+
+            // 1. Display search queries
+            const queryList = document.getElementById('queryList');
+            queryList.innerHTML = '';
+            (data.queries || []).forEach((query, i) => {
+                const li = document.createElement('li');
+                li.textContent = `${i + 1}. ${query}`;
+                queryList.appendChild(li);
+            });
+
+            // 2. Display retrieved chunks
+            const chunkList = document.getElementById('chunkList');
+            const chunksSummary = document.getElementById('chunksSummary');
+            chunkList.innerHTML = '';
+
+            const chunks = data.chunks || [];
+            const chunksTotal = data.chunks_total || chunks.length;
+
+            // Display summary
+            if (chunks.length > 0) {
+                const avgScore = chunks.reduce((sum, c) => sum + (c.similarity_score || 0), 0) / chunks.length;
+                chunksSummary.innerHTML = `📊 Retrieved ${chunksTotal} chunks | Average similarity score: ${avgScore.toFixed(3)}`;
+            } else {
+                chunksSummary.innerHTML = '';
+            }
+
+            // Display individual chunks
+            chunks.forEach((chunk, i) => {
+                const div = document.createElement('div');
+                div.className = 'chunk';
+                div.innerHTML = `
+                    <div class="chunk-meta" style="margin-bottom: 8px;">
+                        <strong>Chunk ${i + 1}:</strong> ${chunk.file_name} | <strong>Similarity:</strong> ${chunk.similarity_score?.toFixed(3) || 'N/A'}
+                    </div>
+                    <div class="chunk-meta" style="font-size: 11px; color: #666; margin-bottom: 8px;">
+                        📍 ${chunk.page_info || 'Page N/A'}, ${chunk.line_info || 'Lines N/A'} |
+                        📏 ${chunk.char_count || 0} chars, ${chunk.token_count || 0} tokens, ${chunk.line_count || 0} lines
+                    </div>
+                    <div class="chunk-text">${escapeHtml(chunk.text.substring(0, 200))}...</div>
+                `;
+                chunkList.appendChild(div);
+            });
+
+            if (chunks.length === 0) {
+                chunkList.innerHTML = '<p style="color: #666;">No chunks retrieved</p>';
+            }
+
+            // 3. Display numbered context
+            document.getElementById('contextText').textContent = data.context || 'No context generated';
+
+            // 4. Display cited sources
+            const citedText = document.getElementById('citedText');
+            if (data.cited_context && data.cited_context.length > 0) {
+                citedText.textContent = data.cited_context;
+            } else {
+                citedText.textContent = 'No sources cited in the response';
+            }
+
+            // 5. Display AI response (text or table based on format)
+            const responseText = document.getElementById('responseText');
+            const outputFormat = data.output_format || 'text';
+
+            if (outputFormat === 'table' || outputFormat === 'chart') {
+                // Render table from response_data
+                if (data.response_data) {
+                    responseText.innerHTML = renderTable(data.response_data);
+                } else {
+                    responseText.innerHTML = '<p style="color: #999;">No table data generated</p>';
+                }
+            } else {
+                // Render text response
+                let response = data.response || 'No response generated';
+
+                // Highlight citations [1], [2-3], etc.
+                response = response.replace(/\[(\d+(?:-\d+)?)\]/g, '<span class="citation">[$1]</span>');
+
+                responseText.innerHTML = `<div style="background: white; padding: 16px; border-radius: 4px; line-height: 1.8;">${response}</div>`;
+            }
+
+            // Auto-expand cited sources and response, collapse others
+            document.getElementById('cited-content').classList.add('expanded');
+            document.getElementById('cited-icon').textContent = '▼';
+            document.getElementById('response-content').classList.add('expanded');
+            document.getElementById('response-icon').textContent = '▼';
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Load test cases on page load
+        loadTestCases();
+    </script>
+</body>
+</html>
