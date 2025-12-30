@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Batch Test Runner</title>
+    <link rel="stylesheet" href="/batch/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>⚡ Batch Test Runner</h1>
+            <p class="subtitle">Run multiple test cases simultaneously and compare results</p>
+        </header>
+
+        <div class="global-config">
+            <h2>Global Configuration</h2>
+            <p class="config-subtitle">This setting will apply to all selected tests in the batch</p>
+            <div class="config-grid">
+                <div class="config-item">
+                    <label for="modelSelect">Model:</label>
+                    <select id="modelSelect" class="config-select">
+                        <option value="gpt-4o" selected>gpt-4o</option>
+                        <option value="gpt-4o-mini">gpt-4o-mini</option>
+                        <option value="gpt-5.2-chat">gpt-5.2-chat</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="control-group">
+                <label class="checkbox-container">
+                    <input type="checkbox" id="selectAll">
+                    <span class="checkmark"></span>
+                    <span class="label-text">Select All</span>
+                </label>
+            </div>
+            <div class="control-group">
+                <button id="runSelectedBtn" class="btn-primary" disabled>
+                    <span class="btn-icon">▶</span>
+                    Run Selected Tests
+                </button>
+            </div>
+        </div>
+
+        <div id="loading" class="loading" style="display: none;">
+            <div class="spinner"></div>
+            <p>Loading test cases...</p>
+        </div>
+
+        <div id="error" class="error" style="display: none;"></div>
+
+        <div class="table-container">
+            <table class="test-table">
+                <thead>
+                    <tr>
+                        <th class="col-select">
+                            <span>Select</span>
+                        </th>
+                        <th class="col-test-name">Test Name</th>
+                        <th class="col-description">Description</th>
+                        <th class="col-files">Files</th>
+                        <th class="col-status">Status</th>
+                        <th class="col-actions">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="testTableBody">
+                    <!-- Rows will be populated dynamically -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="footer">
+            <div class="stats">
+                <span id="totalTests" class="stat-item">Total: <strong>0</strong></span>
+                <span id="selectedTests" class="stat-item">Selected: <strong>0</strong></span>
+            </div>
+        </div>
+    </div>
+
+    <script src="/batch/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+[
+    {
+        "test_name": "studioAI_sample_data",
+        "description": "Hypothetical data for StudioAI evaluation",
+        "file_paths": [
+            "backend/eval_kit/sample_data/studio_ai.pdf"
+        ],
+        "section_name": "Ethanol and Carbon Capture Income Statement",
+        "section_description": "Please pull the Projected income statement for the Ethanol and Carbon Capture Segment. Please pull every row and line item. Also include all the incremental EBITDA from the tax credit adjustments - I want it to go all the way to the bottom to row 25 on the document I provided.",
+        "output_format": "table",
+        "requirements": [
+            "The Income Statement must contain exactly 25 rows as defined in the source exhibits, from Total Net Sales through Total Consolidated EBITDA.",
+            "All line items must match the source document exactly, including formatting, numerical values, and any tax credit adjustments."
+        ]
+    },
+    {
+        "test_name": "revenue_analysis_test",
+        "description": "Test case for revenue breakdown analysis",
+        "file_paths": [
+            "backend/eval_kit/sample_data/studio_ai.pdf"
+        ],
+        "section_name": "Revenue Analysis",
+        "section_description": "Provide a detailed breakdown of revenue by segment and geography. Include year-over-year growth rates and key trends.",
+        "output_format": "text",
+        "requirements": [
+            "Revenue breakdown must include all geographic segments mentioned in the source document.",
+            "Year-over-year growth rates must be calculated accurately.",
+            "Key trends and insights must be highlighted with supporting data."
+        ]
+    }
+]
