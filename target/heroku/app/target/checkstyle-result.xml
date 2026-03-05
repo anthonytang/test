@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="6.11.2">
+<file name="/Users/anthonytang/Desktop/COMP 427/hw1-anthonytang/src/main/java/edu/rice/comp427/util/RandUtil.java">
+</file>
+<file name="/Users/anthonytang/Desktop/COMP 427/hw1-anthonytang/src/main/java/edu/rice/comp427/util/PathFinder.java">
+</file>
+<file name="/Users/anthonytang/Desktop/COMP 427/hw1-anthonytang/src/main/java/edu/rice/comp427/adapter/DispatchAdapter.java">
+</file>
+<file name="/Users/anthonytang/Desktop/COMP 427/hw1-anthonytang/src/main/java/edu/rice/comp427/controller/PacManWorldController.java">
+</file>
+<file name="/Users/anthonytang/Desktop/COMP 427/hw1-anthonytang/src/main/java/edu/rice/comp427/model/response/ResponsePacMan.java">
+</file>
+<file name="/Users/anthonytang/Desktop/COMP 427/hw1-anthonytang/src/main/java/edu/rice/comp427/model/response/ResponseMap.java">
+</file>
+<file name="/Users/anthonytang/Desktop/COMP 427/hw1-anthonytang/src/main/java/edu/rice/comp427/model/response/ResponseGhosts.java">
+</file>
+<file name="/Users/anthonytang/Desktop/COMP 427/hw1-anthonytang/src/main/java/edu/rice/comp427/model/response/ResponseGhost.java">
+</file>
+<file name="/Users/anthonytang/Desktop/COMP 427/hw1-anthonytang/src/main/java/edu/rice/comp427/model/objects/IObjectFac.java">
+</file>
+<file name="/Users/anthonytang/Desktop/COMP 427/hw1-anthonytang/src/main/java/edu/rice/comp427/model/objects/AObject.java">
+</file>
+<file name="/Users/anthonytang/Desktop/COMP 427/hw1-anthonytang/src/main/java/edu/rice/comp427/model/objects/GamObjectFac.java">
+</file>
+<file name="/Users/anthonytang/Desktop/COMP 427/hw1-anthonytang/src/main/java/edu/rice/comp427/model/objects/Ghost.java">
+</file>
+<file name="/Users/anthonytang/Desktop/COMP 427/hw1-anthonytang/src/main/java/edu/rice/comp427/model/objects/Pacman.java">
+</file>
+<file name="/Users/anthonytang/Desktop/COMP 427/hw1-anthonytang/src/main/java/edu/rice/comp427/model/map/Map.java">
+</file>
+<file name="/Users/anthonytang/Desktop/COMP 427/hw1-anthonytang/src/main/java/edu/rice/comp427/model/PacManWorldStore.java">
+</file>
+<file name="/Users/anthonytang/Desktop/COMP 427/hw1-anthonytang/src/main/java/edu/rice/comp427/model/strategy/IStrategy.java">
+</file>
+<file name="/Users/anthonytang/Desktop/COMP 427/hw1-anthonytang/src/main/java/edu/rice/comp427/model/strategy/ShyGhostStrategy.java">
+</file>
+<file name="/Users/anthonytang/Desktop/COMP 427/hw1-anthonytang/src/main/java/edu/rice/comp427/model/strategy/PatrollerGhostStrategy.java">
+</file>
+<file name="/Users/anthonytang/Desktop/COMP 427/hw1-anthonytang/src/main/java/edu/rice/comp427/model/strategy/SimpleGhostStrategy.java">
+</file>
+<file name="/Users/anthonytang/Desktop/COMP 427/hw1-anthonytang/src/main/java/edu/rice/comp427/model/strategy/StrategyFac.java">
+</file>
+<file name="/Users/anthonytang/Desktop/COMP 427/hw1-anthonytang/src/main/java/edu/rice/comp427/model/strategy/FruitHunterGhostStrategy.java">
+</file>
+<file name="/Users/anthonytang/Desktop/COMP 427/hw1-anthonytang/src/main/java/edu/rice/comp427/model/strategy/IStrategyFac.java">
+</file>
+<file name="/Users/anthonytang/Desktop/COMP 427/hw1-anthonytang/src/main/java/edu/rice/comp427/model/strategy/BackToHomeGhostStrategy.java">
+</file>
+</checkstyle>

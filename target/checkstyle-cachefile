@@ -1,0 +1,25 @@
+#Tue Jan 27 15:28:28 CST 2026
+/Users/anthonytang/Desktop/COMP\ 427/hw1-anthonytang/src/main/java/edu/rice/comp427/adapter/DispatchAdapter.java=1769549085506
+/Users/anthonytang/Desktop/COMP\ 427/hw1-anthonytang/src/main/java/edu/rice/comp427/controller/PacManWorldController.java=1769549085506
+/Users/anthonytang/Desktop/COMP\ 427/hw1-anthonytang/src/main/java/edu/rice/comp427/model/PacManWorldStore.java=1769549085506
+/Users/anthonytang/Desktop/COMP\ 427/hw1-anthonytang/src/main/java/edu/rice/comp427/model/map/Map.java=1769549085506
+/Users/anthonytang/Desktop/COMP\ 427/hw1-anthonytang/src/main/java/edu/rice/comp427/model/objects/AObject.java=1769549085507
+/Users/anthonytang/Desktop/COMP\ 427/hw1-anthonytang/src/main/java/edu/rice/comp427/model/objects/GamObjectFac.java=1769549085507
+/Users/anthonytang/Desktop/COMP\ 427/hw1-anthonytang/src/main/java/edu/rice/comp427/model/objects/Ghost.java=1769549085507
+/Users/anthonytang/Desktop/COMP\ 427/hw1-anthonytang/src/main/java/edu/rice/comp427/model/objects/IObjectFac.java=1769549085507
+/Users/anthonytang/Desktop/COMP\ 427/hw1-anthonytang/src/main/java/edu/rice/comp427/model/objects/Pacman.java=1769549085507
+/Users/anthonytang/Desktop/COMP\ 427/hw1-anthonytang/src/main/java/edu/rice/comp427/model/response/ResponseGhost.java=1769549085507
+/Users/anthonytang/Desktop/COMP\ 427/hw1-anthonytang/src/main/java/edu/rice/comp427/model/response/ResponseGhosts.java=1769549085507
+/Users/anthonytang/Desktop/COMP\ 427/hw1-anthonytang/src/main/java/edu/rice/comp427/model/response/ResponseMap.java=1769549085508
+/Users/anthonytang/Desktop/COMP\ 427/hw1-anthonytang/src/main/java/edu/rice/comp427/model/response/ResponsePacMan.java=1769549085508
+/Users/anthonytang/Desktop/COMP\ 427/hw1-anthonytang/src/main/java/edu/rice/comp427/model/strategy/BackToHomeGhostStrategy.java=1769549085508
+/Users/anthonytang/Desktop/COMP\ 427/hw1-anthonytang/src/main/java/edu/rice/comp427/model/strategy/FruitHunterGhostStrategy.java=1769549085508
+/Users/anthonytang/Desktop/COMP\ 427/hw1-anthonytang/src/main/java/edu/rice/comp427/model/strategy/IStrategy.java=1769549085508
+/Users/anthonytang/Desktop/COMP\ 427/hw1-anthonytang/src/main/java/edu/rice/comp427/model/strategy/IStrategyFac.java=1769549085508
+/Users/anthonytang/Desktop/COMP\ 427/hw1-anthonytang/src/main/java/edu/rice/comp427/model/strategy/PatrollerGhostStrategy.java=1769549085508
+/Users/anthonytang/Desktop/COMP\ 427/hw1-anthonytang/src/main/java/edu/rice/comp427/model/strategy/ShyGhostStrategy.java=1769549085508
+/Users/anthonytang/Desktop/COMP\ 427/hw1-anthonytang/src/main/java/edu/rice/comp427/model/strategy/SimpleGhostStrategy.java=1769549085508
+/Users/anthonytang/Desktop/COMP\ 427/hw1-anthonytang/src/main/java/edu/rice/comp427/model/strategy/StrategyFac.java=1769549085509
+/Users/anthonytang/Desktop/COMP\ 427/hw1-anthonytang/src/main/java/edu/rice/comp427/util/PathFinder.java=1769549085509
+/Users/anthonytang/Desktop/COMP\ 427/hw1-anthonytang/src/main/java/edu/rice/comp427/util/RandUtil.java=1769549085509
+configuration*?=F42EE688466190A8494CD90850DE75AFE4F4C349
